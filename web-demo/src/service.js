@@ -26,12 +26,12 @@ var questions = [
         age: 13
     }];
 
-    var bodyParser = require('body-parser');
-    app.use(express.static('public'));
-    app.use(bodyParser.json()); // for parsing application/json
-    app.use(bodyParser.urlencoded({
-         extended: true
-    })); 
+var bodyParser = require('body-parser');
+app.use(express.static('public'));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 //写个接口123
 // app.get('/123', function (req, res) {
 //     console.log(req.body);
@@ -41,11 +41,19 @@ var questions = [
 // });
 
 app.post("/login", function (req, res) {
-    console.log(1,req.params);
-    console.log(2,req.query);
-    console.log(3,req.body);
+    console.log(1, req.params);
+    console.log(2, req.query);
+    console.log(3, req.body);
+    console.log(4, req.headers);
+
     res.append("Access-Control-Allow-Origin", "*");
-    res.send(req.query)
+    let tempParams = {}
+    tempParams.headers = req.headers
+    tempParams.params = req.params
+    tempParams.query = req.query
+    tempParams.body = req.body
+
+    res.send(JSON.stringify(tempParams))
 });
 //配置服务端口
 var server = app.listen(3000, function () {
